@@ -1,4 +1,4 @@
-package com.example.baseballbuddy
+package com.example.baseballbuddy.ui.theme.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
