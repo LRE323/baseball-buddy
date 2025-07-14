@@ -15,7 +15,12 @@
         <activity
             android:name=".ui.theme.activities.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:theme="@style/Theme.BaseballBuddy">
+        </activity>
+
+        <activity
+            android:name=".ui.theme.activities.TeamsListActivity"
+            android:exported="true"
             android:theme="@style/Theme.BaseballBuddy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
