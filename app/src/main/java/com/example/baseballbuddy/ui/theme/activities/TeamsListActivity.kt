@@ -48,7 +48,7 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
             // Add your list or content here
 
             TeamListResponseStatusText(viewModel.teams)
-            BottomActionButton()
+            FetchTeamListButton()
         }
     }
 }
@@ -65,7 +65,7 @@ fun TeamListResponseStatusText(teamList: List<Team>?) {
 
 
 @Composable
-fun BottomActionButton() {
+fun FetchTeamListButton() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
