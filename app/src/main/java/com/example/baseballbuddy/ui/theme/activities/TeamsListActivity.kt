@@ -3,6 +3,7 @@ package com.example.baseballbuddy.ui.theme.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,19 +32,18 @@ class TeamsListActivity: ComponentActivity() {
 @Composable
 fun TeamsListScreen() {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomActionButton()
-        }
+        modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
                 .padding(16.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             // Add your list or content here
-            Text("Teams List goes here")
+            Text("Response msg")
+            BottomActionButton()
         }
     }
 }
