@@ -14,7 +14,11 @@ class TeamViewModel(
 ) : ViewModel() {
 
     private val _teams = MutableStateFlow<UiState<List<Team>>>(UiState.Loading)
-    val teams: StateFlow<UiState<List<Team>>> = _teams
+//    val teams: StateFlow<UiState<List<Team>>> = _teams
+    val teams: List<Team>? = when (val state = _teams.value) {
+        is UiState.Success -> state.data
+        else -> null
+    }
 
     fun fetchTeams() {
         viewModelScope.launch {
