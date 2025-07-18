@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.example.baseballbuddy.ui.theme.BaseballBuddyTheme
 import com.example.baseballbuddy.ui.theme.models.TeamListResponse
 import com.example.baseballbuddy.ui.theme.viewmodel.TeamViewModel
-import kotlin.random.Random
 
 class TeamsListActivity: ComponentActivity() {
     private val viewModel: TeamViewModel by viewModels()
@@ -48,7 +47,7 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            val response by viewModel.teamListResponse.observeAsState(TeamListResponse(null))
+            val response by viewModel.teamListResponse.observeAsState(TeamListResponse())
             TeamListResponseStatusText(response)
 
             FetchTeamListButton(
@@ -60,16 +59,13 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
 
 @Composable
 fun TeamListResponseStatusText(teamListResponse: TeamListResponse?) {
-    val teamList = teamListResponse?.data
-    var message = "Nothing fetched"
-    if (!teamList.isNullOrEmpty()) {
-        val randomIndex = Random.nextInt(0, teamList.lastIndex)
-        val randomTeam = teamList[randomIndex]
-        message = randomTeam.displayName
+    fun getMessage(teamListResponse: TeamListResponse?): String {
+        teamListResponse?.data?.apply {
+            return "$size team(s) fetched"
+        }
+        return "Nothing fetched"
     }
-
-
-    Text(text = message)
+    Text(text = getMessage(teamListResponse))
 }
 
 
