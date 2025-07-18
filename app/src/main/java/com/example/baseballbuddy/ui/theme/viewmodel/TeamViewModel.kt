@@ -1,5 +1,7 @@
 package com.example.baseballbuddy.ui.theme.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,8 +13,8 @@ import kotlinx.coroutines.launch
 class TeamViewModel : ViewModel() {
     private val teamRepository: TeamRepository = TeamRepository()
 
-    private val _teamListResponse: MutableLiveData<TeamListResponse> = MutableLiveData()
-    val teamListResponse: LiveData<TeamListResponse> = _teamListResponse
+    private val _teamListResponse: MutableLiveData<TeamListResponse?> = MutableLiveData()
+    val teamListResponse: LiveData<TeamListResponse?> = _teamListResponse
 
     fun fetchTeams() {
         viewModelScope.launch {
