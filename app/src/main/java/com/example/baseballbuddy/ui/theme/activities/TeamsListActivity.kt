@@ -14,11 +14,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.baseballbuddy.ui.theme.BaseballBuddyTheme
-import com.example.baseballbuddy.ui.theme.models.Team
+import com.example.baseballbuddy.ui.theme.models.TeamListResponse
 import com.example.baseballbuddy.ui.theme.viewmodel.TeamViewModel
+import kotlin.random.Random
 
 class TeamsListActivity: ComponentActivity() {
     private val viewModel: TeamViewModel by viewModels()
@@ -45,34 +48,40 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Add your list or content here
+            val response by viewModel.teamListResponse.observeAsState(TeamListResponse(null))
+            TeamListResponseStatusText(response)
 
-            TeamListResponseStatusText(viewModel.teams)
-            FetchTeamListButton()
+            FetchTeamListButton(
+                onClickFetchTeams = { viewModel.fetchTeams() }
+            )
         }
     }
 }
 
 @Composable
-fun TeamListResponseStatusText(teamList: List<Team>?) {
-    val message = if (teamList?.isNotEmpty() == true) {
-        "Fetched ${teamList.size} team(s)"
-    } else {
-        "Team list empty"
+fun TeamListResponseStatusText(teamListResponse: TeamListResponse?) {
+    val teamList = teamListResponse?.data
+    var message = "Nothing fetched"
+    if (!teamList.isNullOrEmpty()) {
+        val randomIndex = Random.nextInt(0, teamList.lastIndex)
+        val randomTeam = teamList[randomIndex]
+        message = randomTeam.displayName
     }
+
+
     Text(text = message)
 }
 
 
 @Composable
-fun FetchTeamListButton() {
+fun FetchTeamListButton(onClickFetchTeams: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
         contentAlignment = androidx.compose.ui.Alignment.Center
     ) {
-        Button(onClick = { /* handle click */ }) {
+        Button(onClick = onClickFetchTeams) {
             Text("Fetch Teams")
         }
     }
