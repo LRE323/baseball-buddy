@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BaseballBuddy</string>
+    <string name="team_list_screen_headline">List of teams</string>
 </resources>
