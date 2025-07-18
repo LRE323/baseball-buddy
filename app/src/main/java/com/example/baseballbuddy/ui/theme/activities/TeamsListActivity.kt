@@ -20,7 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.baseballbuddy.R
 import com.example.baseballbuddy.ui.theme.BaseballBuddyTheme
 import com.example.baseballbuddy.ui.theme.models.Team
 import com.example.baseballbuddy.ui.theme.models.TeamListResponse
@@ -51,6 +54,7 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
+            TeamListScreenHeader()
 
             val response by viewModel.teamListResponse.observeAsState(TeamListResponse())
             TeamLazyColumn(response?.data)
@@ -60,6 +64,16 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
             )
         }
     }
+}
+
+@Composable
+fun TeamListScreenHeader() {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        text = stringResource(R.string.team_list_screen_headline),
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
