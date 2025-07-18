@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +21,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.baseballbuddy.ui.theme.BaseballBuddyTheme
+import com.example.baseballbuddy.ui.theme.models.Team
 import com.example.baseballbuddy.ui.theme.models.TeamListResponse
 import com.example.baseballbuddy.ui.theme.viewmodel.TeamViewModel
 
@@ -47,8 +52,9 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
+
             val response by viewModel.teamListResponse.observeAsState(TeamListResponse())
-            TeamListResponseStatusText(response)
+            TeamLazyColumn(response?.data)
 
             FetchTeamListButton(
                 onClickFetchTeams = { viewModel.fetchTeams() }
@@ -58,16 +64,21 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
 }
 
 @Composable
-fun TeamListResponseStatusText(teamListResponse: TeamListResponse?) {
-    fun getMessage(teamListResponse: TeamListResponse?): String {
-        teamListResponse?.data?.apply {
-            return "$size team(s) fetched"
+fun TeamLazyColumn(teamList: List<Team>?) {
+    LazyColumn {
+        items(teamList ?: emptyList()) {
+            TeamLazyColumnItem(it)
         }
-        return "Nothing fetched"
     }
-    Text(text = getMessage(teamListResponse))
 }
 
+@Composable
+fun TeamLazyColumnItem(team: Team) {
+    Text(
+        text = team.displayName,
+        style = MaterialTheme.typography.bodyLarge
+    )
+}
 
 @Composable
 fun FetchTeamListButton(onClickFetchTeams: () -> Unit) {
