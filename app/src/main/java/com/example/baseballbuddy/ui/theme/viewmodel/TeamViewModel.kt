@@ -1,32 +1,22 @@
 package com.example.baseballbuddy.ui.theme.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.baseballbuddy.ui.theme.UiState
-import com.example.baseballbuddy.ui.theme.models.Team
+import com.example.baseballbuddy.ui.theme.models.TeamListResponse
 import com.example.baseballbuddy.ui.theme.repositories.TeamRepository
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class TeamViewModel(
-    private val repository: TeamRepository = TeamRepository()
-) : ViewModel() {
+class TeamViewModel : ViewModel() {
+    private val teamRepository: TeamRepository = TeamRepository()
 
-    private val _teams = MutableStateFlow<UiState<List<Team>>>(UiState.Loading)
-    val teams: List<Team>? = when (val state = _teams.value) {
-        is UiState.Success -> state.data
-        else -> null
-    }
+    private val _teamListResponse: MutableLiveData<TeamListResponse> = MutableLiveData()
+    val teamListResponse: LiveData<TeamListResponse> = _teamListResponse
 
     fun fetchTeams() {
         viewModelScope.launch {
-            _teams.value = UiState.Loading
-            try {
-                val result = repository.getTeams()
-                _teams.value = UiState.Success(result)
-            } catch (e: Exception) {
-                _teams.value = UiState.Error(e.localizedMessage ?: "Unknown error")
-            }
+            _teamListResponse.value = teamRepository.getTeamListResponse()
         }
     }
 }
