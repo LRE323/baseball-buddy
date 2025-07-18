@@ -47,5 +47,5 @@ object BallDontLieNetworkModule {
     /**
      * A Retrofit implementation of the TeamApiService interface.
      */
-    val teamApiService: TeamApiService = retrofit.create(TeamApiService::class.java)
+    val ballDontLieApiService: BallDontLieApiService = retrofit.create(BallDontLieApiService::class.java)
 }
