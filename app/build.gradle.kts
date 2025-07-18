@@ -1,3 +1,11 @@
+import java.util.Properties
+
+val ballDontLieStringKey = "BALL_DONT_LIE_API_KEY"
+val localProps = Properties().apply {
+    load(File(rootDir, "local.properties").inputStream())
+}
+val ballDontLieApiKey = localProps[ballDontLieStringKey] as String
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,6 +24,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", ballDontLieStringKey, "\"$ballDontLieApiKey\"")
     }
 
     buildTypes {
@@ -36,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
