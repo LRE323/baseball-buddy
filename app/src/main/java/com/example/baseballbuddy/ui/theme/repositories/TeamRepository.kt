@@ -1,10 +1,12 @@
 package com.example.baseballbuddy.ui.theme.repositories
 
-import com.example.baseballbuddy.ui.theme.network.RetrofitInstance
-import com.example.baseballbuddy.ui.theme.models.Team
+import com.example.baseballbuddy.ui.theme.models.TeamListResponse
+import com.example.baseballbuddy.ui.theme.network.BallDontLieNetworkModule
 
 class TeamRepository {
-    suspend fun getTeams(): List<Team> {
-        return RetrofitInstance.api.getTeams().data
+    private val teamApiService = BallDontLieNetworkModule.teamApiService
+
+    suspend fun getTeamListResponse(): TeamListResponse {
+        return teamApiService.getTeams()
     }
 }
