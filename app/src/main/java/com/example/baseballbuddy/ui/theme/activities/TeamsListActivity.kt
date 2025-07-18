@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.baseballbuddy.ui.theme.BaseballBuddyTheme
 import com.example.baseballbuddy.ui.theme.models.Team
 import com.example.baseballbuddy.ui.theme.models.TeamListResponse
