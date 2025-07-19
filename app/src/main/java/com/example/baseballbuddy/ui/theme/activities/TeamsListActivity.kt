@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -47,8 +48,6 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -77,9 +76,20 @@ fun TeamListScreenHeader() {
 
 @Composable
 fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier) {
-    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.Top) {
-        items(teamList ?: emptyList()) {
-            TeamLazyColumnItem(it)
+    val teams = teamList ?: emptyList()
+
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Top
+    ) {
+        itemsIndexed(teams) { index, team ->
+            if (index != 0) { // Do not add top divider for the first item
+                TeamLazyColumnItemDivider()
+            }
+            TeamLazyColumnItem(team)
+            if (index != teams.lastIndex) { // do not add bottom divider to the last item
+                TeamLazyColumnItemDivider()
+            }
         }
     }
 }
@@ -87,13 +97,11 @@ fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier) {
 @Composable
 fun TeamLazyColumnItem(team: Team) {
     val modifier = Modifier.padding(vertical = 32.dp)
-    TeamLazyColumnItemDivider()
     Text(
         text = team.displayName,
         style = MaterialTheme.typography.bodyLarge,
         modifier = modifier
     )
-    TeamLazyColumnItemDivider()
 }
 
 @Composable
