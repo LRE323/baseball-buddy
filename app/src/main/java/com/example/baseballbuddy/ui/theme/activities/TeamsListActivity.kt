@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,17 +47,20 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
+
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
         ) {
             TeamListScreenHeader()
 
             val response by viewModel.teamListResponse.observeAsState(TeamListResponse())
-            TeamLazyColumn(response?.data)
+            val teamLazyColumnModifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+            TeamLazyColumn(response?.data, teamLazyColumnModifier)
         }
     }
 }
@@ -64,7 +68,7 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
 @Composable
 fun TeamListScreenHeader() {
     Text(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
         textAlign = TextAlign.Center,
         text = stringResource(R.string.team_list_screen_headline),
         style = MaterialTheme.typography.headlineLarge,
@@ -72,8 +76,8 @@ fun TeamListScreenHeader() {
 }
 
 @Composable
-fun TeamLazyColumn(teamList: List<Team>?) {
-    LazyColumn {
+fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier) {
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.Top) {
         items(teamList ?: emptyList()) {
             TeamLazyColumnItem(it)
         }
@@ -82,8 +86,21 @@ fun TeamLazyColumn(teamList: List<Team>?) {
 
 @Composable
 fun TeamLazyColumnItem(team: Team) {
+    val modifier = Modifier.padding(vertical = 32.dp)
+    TeamLazyColumnItemDivider()
     Text(
         text = team.displayName,
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        modifier = modifier
+    )
+    TeamLazyColumnItemDivider()
+}
+
+@Composable
+fun TeamLazyColumnItemDivider() {
+    HorizontalDivider(
+        modifier = Modifier
+            .fillMaxWidth(),
+        thickness = 1.dp
     )
 }
