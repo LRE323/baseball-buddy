@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.baseballbuddy"
-        minSdk = 30
+        minSdk = 33
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
