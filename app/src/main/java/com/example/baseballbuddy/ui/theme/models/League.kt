@@ -7,5 +7,11 @@ enum class League {
     AMERICAN,
 
     @SerializedName("National")
-    NATIONAL
+    NATIONAL;
+
+    val serviceQueryLabel: String
+        get() = when(this) {
+        AMERICAN -> "American"
+        NATIONAL -> "National"
+    }
 }

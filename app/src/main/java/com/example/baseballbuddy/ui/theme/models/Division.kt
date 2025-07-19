@@ -3,6 +3,7 @@ package com.example.baseballbuddy.ui.theme.models
 import com.google.gson.annotations.SerializedName
 
 enum class Division {
+
     @SerializedName("West")
     WEST,
 
@@ -10,5 +11,13 @@ enum class Division {
     CENTRAL,
 
     @SerializedName("East")
-    EAST
+    EAST;
+
+    val serviceQueryLabel: String
+        get() = when (this) {
+            WEST -> "West"
+            CENTRAL -> "Central"
+            EAST -> "East"
+        }
+
 }
