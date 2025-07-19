@@ -88,6 +88,7 @@ fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier, onClickTeam: (Team
         verticalArrangement = Arrangement.Top
     ) {
         itemsIndexed(teams) { index, team ->
+            // TODO: Need to add Dividers for leagues and divisions
             if (index != 0) { // Do not add top divider for the first item
                 TeamLazyColumnItemDivider()
             }
