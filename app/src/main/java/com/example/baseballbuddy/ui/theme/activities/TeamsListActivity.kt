@@ -37,7 +37,6 @@ class TeamsListActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTitle()
         setContent {
             BaseballBuddyTheme {
                 TeamsListScreen(viewModel, ::onClickTeam)
@@ -48,9 +47,6 @@ class TeamsListActivity: ComponentActivity() {
 
     private fun onClickTeam(team: Team) {
         Toast.makeText(this, "Clicked ${team.displayName}", Toast.LENGTH_SHORT).show()
-    }
-    private fun setTitle() {
-       title = getString(R.string.team_list_screen_headline)
     }
 }
 
