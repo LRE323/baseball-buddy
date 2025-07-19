@@ -1,7 +1,7 @@
 package com.example.baseballbuddy.ui.theme.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.baseballbuddy.R
 import com.example.baseballbuddy.ui.theme.BaseballBuddyTheme
+import com.example.baseballbuddy.ui.theme.BundleKeys
 import com.example.baseballbuddy.ui.theme.models.Team
 import com.example.baseballbuddy.ui.theme.models.TeamListResponse
 import com.example.baseballbuddy.ui.theme.viewmodel.TeamViewModel
@@ -45,7 +46,13 @@ class TeamsListActivity: ComponentActivity() {
     }
 
     private fun onClickTeam(team: Team) {
-        Toast.makeText(this, "Clicked ${team.displayName}", Toast.LENGTH_SHORT).show()
+        val bundle = Bundle().apply {
+            putParcelable(BundleKeys.TEAM_KEY, team)
+        }
+        val intent = Intent(this, TeamInfoActivity::class.java).apply {
+            intent.putExtras(bundle)
+        }
+        startActivity(intent)
     }
 }
 
