@@ -5,14 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,6 +37,7 @@ class TeamsListActivity: ComponentActivity() {
                 TeamsListScreen(viewModel)
             }
         }
+        viewModel.fetchTeams()
     }
 }
 
@@ -58,10 +57,6 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
 
             val response by viewModel.teamListResponse.observeAsState(TeamListResponse())
             TeamLazyColumn(response?.data)
-
-            FetchTeamListButton(
-                onClickFetchTeams = { viewModel.fetchTeams() }
-            )
         }
     }
 }
@@ -91,18 +86,4 @@ fun TeamLazyColumnItem(team: Team) {
         text = team.displayName,
         style = MaterialTheme.typography.bodyLarge
     )
-}
-
-@Composable
-fun FetchTeamListButton(onClickFetchTeams: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        contentAlignment = androidx.compose.ui.Alignment.Center
-    ) {
-        Button(onClick = onClickFetchTeams) {
-            Text("Fetch Teams")
-        }
-    }
 }
