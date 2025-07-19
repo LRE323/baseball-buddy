@@ -1,16 +1,17 @@
 package com.example.baseballbuddy.ui.theme.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -36,15 +37,19 @@ class TeamsListActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BaseballBuddyTheme {
-                TeamsListScreen(viewModel)
+                TeamsListScreen(viewModel, ::onClickTeam)
             }
         }
         viewModel.fetchTeams()
     }
+
+    private fun onClickTeam(team: Team) {
+        Toast.makeText(this, "Clicked ${team.displayName}", Toast.LENGTH_SHORT).show()
+    }
 }
 
 @Composable
-fun TeamsListScreen(viewModel: TeamViewModel) {
+fun TeamsListScreen(viewModel: TeamViewModel, onClickTeam: (Team) -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
@@ -59,7 +64,7 @@ fun TeamsListScreen(viewModel: TeamViewModel) {
             val teamLazyColumnModifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-            TeamLazyColumn(response?.data, teamLazyColumnModifier)
+            TeamLazyColumn(response?.data, teamLazyColumnModifier, onClickTeam)
         }
     }
 }
@@ -75,7 +80,7 @@ fun TeamListScreenHeader() {
 }
 
 @Composable
-fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier) {
+fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier, onClickTeam: (Team) -> Unit) {
     val teams = teamList ?: emptyList()
 
     LazyColumn(
@@ -86,7 +91,7 @@ fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier) {
             if (index != 0) { // Do not add top divider for the first item
                 TeamLazyColumnItemDivider()
             }
-            TeamLazyColumnItem(team)
+            TeamLazyColumnItem(team, onClickTeam)
             if (index != teams.lastIndex) { // do not add bottom divider to the last item
                 TeamLazyColumnItemDivider()
             }
@@ -95,12 +100,17 @@ fun TeamLazyColumn(teamList: List<Team>?, modifier: Modifier) {
 }
 
 @Composable
-fun TeamLazyColumnItem(team: Team) {
-    val modifier = Modifier.padding(vertical = 32.dp)
+fun TeamLazyColumnItem(
+    team: Team,
+    onClick: (Team) -> Unit
+) {
     Text(
         text = team.displayName,
         style = MaterialTheme.typography.bodyLarge,
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick(team) }
+            .padding(vertical = 32.dp)
     )
 }
 
