@@ -50,7 +50,7 @@ class TeamsListActivity: ComponentActivity() {
             putParcelable(BundleKeys.TEAM_KEY, team)
         }
         val intent = Intent(this, TeamInfoActivity::class.java).apply {
-            intent.putExtras(bundle)
+            putExtras(bundle)
         }
         startActivity(intent)
     }
