@@ -1,7 +1,10 @@
 package com.example.baseballbuddy.ui.theme.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Team(
     @SerializedName("id")
     val id: Int,
@@ -29,4 +32,4 @@ data class Team(
 
     @SerializedName("division")
     val division: Division
-)
+): Parcelable
