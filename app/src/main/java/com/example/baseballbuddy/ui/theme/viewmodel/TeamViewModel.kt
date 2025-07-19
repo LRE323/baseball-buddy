@@ -1,12 +1,13 @@
 package com.example.baseballbuddy.ui.theme.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.baseballbuddy.ui.theme.models.Division
+import com.example.baseballbuddy.ui.theme.models.League
 import com.example.baseballbuddy.ui.theme.models.TeamListResponse
+import com.example.baseballbuddy.ui.theme.network.BallDontLieTeamsRequest
 import com.example.baseballbuddy.ui.theme.repositories.TeamRepository
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,12 @@ class TeamViewModel : ViewModel() {
 
     fun fetchTeams() {
         viewModelScope.launch {
-            _teamListResponse.value = teamRepository.getTeamListResponse()
+            val response = teamRepository.getTeamListResponse(getTeamsRequest())
+            _teamListResponse.value = response
         }
+    }
+
+    private fun getTeamsRequest(): BallDontLieTeamsRequest {
+        return BallDontLieTeamsRequest(League.NATIONAL, Division.WEST)
     }
 }
